@@ -4,7 +4,6 @@ module.exports = {
   async store(req, res) {
     const { user } = req.headers;
     const { devId } = req.params;
-
     const loggedDev = await Dev.findById(user);
     const targetDev = await Dev.findById(devId);
 
