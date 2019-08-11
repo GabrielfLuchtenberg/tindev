@@ -11,7 +11,15 @@ module.exports = {
       return res.status(400).json({ error: "dev not found" });
     }
     if (targetDev.likes.includes(user)) {
-      console.log(user);
+      const loggedSocket = req.connectedUsers[user];
+      const targetSocket = req.connectedUsers[devId];
+
+      if (loggedSocket) {
+        req.io.to(loggedSocket).emit("match", targetDev);
+      }
+      if (targetSocket) {
+        req.io.to(targetSocket).emit("match", loggedDev);
+      }
     }
 
     loggedDev.likes.push(targetDev._id);
